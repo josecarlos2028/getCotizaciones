@@ -1,144 +1,32 @@
-/*
-    Author: Ing. Carlos Vallejos
-    Empresa: Vamyal S.A.
-    Noviembre del 2015
-*/
+require('dotenv').config(); // Cargar variables de entorno desde .env
 
 module.exports = {
-    getNow: function() {
-        return Date.now();
-    },
-    ip: 'localhost',
-    port: 3050,
-    dbURI: 'mongodb://localhost/finanzas',
-    optionsRequest: {
-        rejectUnauthorized: false,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        timeout: 10000
-    },
-    parseMaxiCambios: [{
-        moneda: "Dolar",
-        clase: '.lineas1',
-        posicion: 0,
-        compra: 7,
-        venta: 5
-    }, {
-        moneda: "Peso Argentino",
-        clase: '.lineas2',
-        posicion: 0,
-        compra: 7,
-        venta: 5
-    }, {
-        moneda: "Real",
-        clase: '.lineas1',
-        posicion: 1,
-        compra: 7,
-        venta: 5
-    }, {
-        moneda: "Euro",
-        clase: '.lineas1',
-        posicion: 2,
-        compra: 7,
-        venta: 5
-    }, ],
-    parseBancoAtlas: [{
-        moneda: "Dolar",
-        posicion: 0,
-        compra: 6,
-        venta: 10
-    }, {
-        moneda: "Peso Argentino",
-        posicion: 3,
-        compra: 6,
-        venta: 10
-    }, {
-        moneda: "Real",
-        posicion: 2,
-        compra: 6,
-        venta: 10
-    }, {
-        moneda: "Euro",
-        posicion: 1,
-        compra: 6,
-        venta: 10
-    }, ],
-    parseBancoAmambay: [{
-        moneda: "Dolar",
-        posicion: 0
-    }, {
-        moneda: "Peso Argentino",
-        posicion: 3
-    }, {
-        moneda: "Real",
-        posicion: 2
-    }, {
-        moneda: "Euro",
-        posicion: 4
-    }, ],
-    parseCambiosAlberdi: [{
-        moneda: "Dolar",
-        compra: 0,
-        venta: 1
-    }, {
-        moneda: "Peso Argentino",
-        compra: 2,
-        venta: 3
-    }, {
-        moneda: "Real",
-        compra: 4,
-        venta: 5
-    }, {
-        moneda: "Euro",
-        compra: 6,
-        venta: 7
-    }, ],
-    parseCambiosChaco: [{
-        moneda: "Dolar",
-        compra: 8,
-        venta: 9
-    }, {
-        moneda: "Peso Argentino",
-        compra: 12,
-        venta: 13
-    }, {
-        moneda: "Real",
-        compra: 16,
-        venta: 17
-    }, {
-        moneda: "Euro",
-        compra: 20,
-        venta: 21
-    }, ],
-    parseFamiliar: [{
-        moneda: "Dolar",
-        clase: 'div#wrapper-banner > div.wrapper > div.sidebar > div#content > div#slider > ul > li > span#dolar'
-    }, {
-        moneda: "Peso Argentino",
-        clase: 'div#wrapper-banner > div.wrapper > div.sidebar > div#content > div#slider > ul > li > span#peso'
-    }, {
-        moneda: "Real",
-        clase: 'div#wrapper-banner > div.wrapper > div.sidebar > div#content > div#slider > ul > li > span#real'
-    }, {
-        moneda: "Euro",
-        clase: 'div#wrapper-banner > div.wrapper > div.sidebar > div#content > div#slider > ul > li > span#euro'
-    }, ],
-    parseInterfisa: [{
-        moneda: "Dolar",
-        compra: 'td#dolar_compra',
-        venta: 'td#dolar_venta'
-    }, {
-        moneda: "Peso Argentino",
-        compra: 'td#peso_compra',
-        venta: 'td#peso_venta'
-    }, {
-        moneda: "Real",
-        compra: 'td#real_compra',
-        venta: 'td#real_venta'
-    }, {
-        moneda: "Euro",
-        compra: 'td#euro_compra',
-        venta: 'td#euro_venta'
-    }, ],
+    mongoURI: process.env.MONGO_URI,
+    cambioschaco: {
+        url: 'https://www.cambioschaco.com.py/',
+        parseConfig: [
+            { id: 'exchange-usd', moneda: 'USD' },
+            { id: 'exchange-brl', moneda: 'BRL' },
+            { id: 'exchange-ars', moneda: 'ARS' },
+            { id: 'exchange-eur', moneda: 'EUR' },
+            { id: 'exchange-clp', moneda: 'CLP' },
+            { id: 'exchange-uyu', moneda: 'UYU' },
+            { id: 'exchange-cop', moneda: 'COP' },
+            { id: 'exchange-mxn', moneda: 'MXN' },
+            { id: 'exchange-bob', moneda: 'BOB' },
+            { id: 'exchange-pen', moneda: 'PEN' },
+            { id: 'exchange-cad', moneda: 'CAD' },
+            { id: 'exchange-aud', moneda: 'AUD' },
+            { id: 'exchange-nok', moneda: 'NOK' },
+            { id: 'exchange-dkk', moneda: 'DKK' },
+            { id: 'exchange-sek', moneda: 'SEK' },
+            { id: 'exchange-gbp', moneda: 'GBP' },
+            { id: 'exchange-chf', moneda: 'CHF' },
+            { id: 'exchange-jpy', moneda: 'JPY' },
+            { id: 'exchange-kwd', moneda: 'KWD' },
+            { id: 'exchange-ils', moneda: 'ILS' },
+            { id: 'exchange-zar', moneda: 'ZAR' },
+            { id: 'exchange-rub', moneda: 'RUB' }
+        ]
+    }
 };

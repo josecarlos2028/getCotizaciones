@@ -1,56 +1,44 @@
-/*
-    Author: Ing. Carlos Vallejos
-    Empresa: Vamyal S.A.
-    Noviembre del 2015
-*/
+// modules/cambioschaco.js
+const axios = require('axios');
+const cheerio = require('cheerio');
+const config = require('../config/config');
+const logger = require('../config/logger');
 
-var cheerio = require('cheerio');
-var Q = require('q');
-var request = require('request');
+async function obtenerDatosCambiosChaco() {
+    try {
+        const { data: html } = await axios.get(config.cambioschaco.url);
+        const $ = cheerio.load(html);
+        const pizarra = [];
 
-/* Config */
-var Config = require(__dirname + '/../config/config');
+        $('#main-exchange-content tr').each((index, element) => {
+            const monedaConfig = config.cambioschaco.parseConfig.find(cfg => cfg.id === $(element).attr('id'));
+            if (monedaConfig) {
+                const moneda = monedaConfig.moneda;
+                const compra = parseFloat($(element).find('.purchase').text().replace(',', '').trim());
+                const venta = parseFloat($(element).find('.sale').text().replace(',', '').trim());
+                const spread = venta - compra;
 
-module.exports = {
-
-    getCotizacionesHTML: function(callback) {
-        var deferred = Q.defer();
-        var respuesta = [];
-        var optionsRequest = Config.optionsRequest;
-        var fecha_insert = Config.getNow();
-        optionsRequest.url = 'http://www.cambioschaco.com.py/php/imprimir_.php';
-
-        request(optionsRequest, function(error, response, html) {
-
-            if (!error && response.statusCode == 200) {
-                var $ = cheerio.load(html);
-
-                Config.parseCambiosChaco.map(function(moneda) {
-                    var compra = $('tr > td')[moneda.compra].children[0].data.trim().replace('.', '').replace(',00', '');
-                    var venta = $('tr > td')[moneda.venta].children[0].data.trim().replace('.', '').replace(',00', '');
-                    respuesta.push({
-                        id: 5,
-                        entidad: 'Cambios Chaco',
-                        moneda: moneda.moneda,
-                        compra: parseInt(compra),
-                        venta:  parseInt(venta),
-                        spread: parseInt(venta) - parseInt(compra),
-                        fecha: fecha_insert,
-                    });
+                pizarra.push({
+                    moneda,
+                    codigo: monedaConfig.moneda,
+                    compra,
+                    venta,
+                    spread
                 });
-
-                //console.log('CambiosChaco: \n' + JSON.stringify(respuesta, null, 2));
-                deferred.resolve(respuesta);
-
-            } else {
-                deferred.reject(respuesta);
             }
-
         });
 
-        deferred.promise.nodeify(callback);
-        return deferred.promise;
-
+        return {
+            InfoCotizacion: {
+                entidad: 'Cambios Chaco',
+                fecha: new Date().toISOString().split('T')[0],
+                pizarra
+            }
+        };
+    } catch (error) {
+        logger.error('Error al obtener datos de Cambios Chaco: %O', error);
+        throw error;
     }
+}
 
-};
+module.exports = obtenerDatosCambiosChaco;

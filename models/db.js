@@ -4,33 +4,35 @@
     Noviembre del 2015
 */
 
-var mongoose = require( 'mongoose' );
+const mongoose = require('mongoose');
+const Config = require(__dirname + '/../config/config');
 
-/* Config */
-var Config = require(__dirname + '/../config/config');
+const dbURI = Config.dbURI;
 
-var dbURI = Config.dbURI;
+const connectDB = async () => {
+    try {
+        await mongoose.connect(dbURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('Mongoose se ha conectado a:', dbURI);
+    } catch (err) {
+        console.error('Mongoose con error al conectarse:', err);
+        process.exit(1);
+    }
+};
 
-mongoose.connect(dbURI);
-
-mongoose.connection.on('connected', function () {
-  console.log('Mongoose se ha conectado a: ' + dbURI);
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose se ha desconectado.');
 });
 
-mongoose.connection.on('error',function (err) {
-  console.log('Mongoose con error al conectarse: ' + err);
-});
-
-mongoose.connection.on('disconnected', function () {
-  console.log('Mongoose se ha desconectado.');
-});
-
-process.on('SIGINT', function() {
-  mongoose.connection.close(function () {
+process.on('SIGINT', async () => {
+    await mongoose.connection.close();
     console.log('Mongoose se ha desconectado, cuando la app ha terminado.');
     process.exit(0);
-  });
 });
 
 // Agregamos los modelos
-//require('./cotizaciones.model.js');
+require('./cotizaciones.model');
+
+module.exports = connectDB;

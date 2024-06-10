@@ -1,43 +1,23 @@
-/*
-    Author: Ing. Carlos Vallejos
-    Empresa: Vamyal S.A.
-    Noviembre del 2015
-*/
+// server.js
+const express = require('express');
+const mongoose = require('mongoose');
+const router = require('./router/router');
+const config = require('./config/config');
+const logger = require('./config/logger');
 
-/* librerias requeridas */
-var cors = require('cors');
-var db = require('./models/db');
-var express = require('express');
-var morgan = require('morgan');
+const app = express();
+const PORT = 3050;
 
-/* Config */
-var Config = require('./config/config');
+app.use(express.json());
+app.use(router);
 
-/* Instanciamos una app express */
-var app = express();
-var routes = require('./router/router');
+// Configura la opción strictQuery en Mongoose
+mongoose.set('strictQuery', true);
 
-/* Habilitamos CORS a todas las rutas */
-app.use(cors());
-app.use(morgan('dev'));
+mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => logger.info('MongoDB connected'))
+    .catch((error) => logger.error('MongoDB connection error: %O', error));
 
-app.set('x-powered-by', false);
-// Agragamos el header powered-by Vamyal S.A. en un middleware
-app.use(function(req, res, next) {
-    res.header('X-Powered-By', 'Vamyal S.A. <vamyal.com>');
-    next();
+app.listen(PORT, () => {
+    logger.info(`Cotizaciones API en http://localhost:${PORT}`);
 });
-
-// Cargamos las rutas habilitadas.
-app.use('/', routes);
-
-var ip = process.env.IP || Config.ip;
-var port = process.env.PORT || Config.port;
-
-console.time('Arrancamos el server en');
-var server = app.listen(port, ip, function() {
-    console.log('Cotizaciones API en http://%s:%s', server.address().address, server.address().port);
-    console.timeEnd('Arrancamos el server en');
-});
-
-exports = module.exports = app;

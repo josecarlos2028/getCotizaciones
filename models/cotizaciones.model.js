@@ -4,9 +4,9 @@
     Noviembre del 2015
 */
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var cotizacionesSchema = new mongoose.Schema({
+const cotizacionesSchema = new mongoose.Schema({
     id: {
         type: Number,
         required: true
@@ -49,6 +49,8 @@ var cotizacionesSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
+}, {
+    timestamps: true // Añadimos timestamps para createdAt y updatedAt
 });
 
-var Cotizaciones = module.exports = mongoose.model('Cotizaciones', cotizacionesSchema);
+module.exports = mongoose.model('Cotizaciones', cotizacionesSchema);

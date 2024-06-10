@@ -1,25 +1,20 @@
 {
-  "name": "node-cotizaciones",
-  "version": "1.2.0",
-  "description": "Buscamos las cotizaciones en la web.",
+  "name": "getCotizaciones",
+  "version": "1.0.0",
+  "description": "API para obtener cotizaciones de Cambios Chaco",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js"
-  },
-  "author": "Vamyal S.A. - Ing. Carlos Vallejos",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cabupy/node-cotizaciones.git"
+    "start": "node server.js"
   },
   "dependencies": {
-    "cheerio": "latest",
-    "cors": "^2.7.1",
-    "cron": "^1.0.9",
-    "express": "latest",
-    "mongoose": "^4.2.6",
-    "morgan": "^1.6.1",
-    "q": "^1.4.1",
-    "request": "latest"
-  }
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "winston": "^3.3.3"
+  },
+  "author": "cm.sistemas@gmail.com",
+  "license": "ISC"
 }
+
