@@ -8,7 +8,7 @@ async function obtenerDatosCambiosChaco() {
     try {
         const { data: html } = await axios.get(config.cambioschaco.url);
         const $ = cheerio.load(html);
-        const pizarra = [];
+        const pizarraItems = [];
 
         $('#main-exchange-content tr').each((index, element) => {
             const monedaConfig = config.cambioschaco.parseConfig.find(cfg => cfg.id === $(element).attr('id'));
@@ -18,7 +18,7 @@ async function obtenerDatosCambiosChaco() {
                 const venta = parseFloat($(element).find('.sale').text().replace(',', '').trim());
                 const spread = venta - compra;
 
-                pizarra.push({
+                pizarraItems.push({
                     moneda,
                     codigo: monedaConfig.moneda,
                     compra,
@@ -29,10 +29,10 @@ async function obtenerDatosCambiosChaco() {
         });
 
         return {
-            InfoCotizacion: {
-                entidad: 'Cambios Chaco',
-                fecha: new Date().toISOString().split('T')[0],
-                pizarra
+            entidad: 'Cambios Chaco',
+            fecha: new Date().toISOString().split('T')[0],
+            pizarra: {
+                pizarraItem: pizarraItems
             }
         };
     } catch (error) {

@@ -8,3 +8,13 @@
 {"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 11:24:35"}
 {"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 11:28:36"}
 {"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 11:28:36"}
+{"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 12:55:34"}
+{"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 12:55:34"}
+{"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 16:20:46"}
+{"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 16:20:46"}
+{"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 16:24:34"}
+{"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 16:24:34"}
+{"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 18:24:23"}
+{"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 18:24:24"}
+{"level":"info","message":"Cotizaciones API en http://localhost:3050","service":"user-service","timestamp":"2024-06-10 18:46:41"}
+{"level":"info","message":"MongoDB connected","service":"user-service","timestamp":"2024-06-10 18:46:41"}
