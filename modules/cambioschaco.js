@@ -4,6 +4,25 @@ const cheerio = require('cheerio');
 const config = require('../config/config');
 const logger = require('../config/logger');
 
+function parseNumber(value) {
+    // Detect if comma is used as decimal separator
+    const hasCommaAsDecimal = value.includes(',');
+    const hasPointAsThousands = value.includes('.');
+
+    if (hasCommaAsDecimal && hasPointAsThousands) {
+        // Handle European style numbers: 1.234,56
+        value = value.replace('.', '').replace(',', '.');
+    } else if (hasCommaAsDecimal) {
+        // Handle numbers with commas as decimal separator: 1,234
+        value = value.replace(',', '.');
+    } else if (hasPointAsThousands) {
+        // Handle numbers with points as thousands separator: 1.234
+        value = value.replace('.', '');
+    }
+
+    return parseFloat(value);
+}
+
 async function obtenerDatosCambiosChaco() {
     try {
         const { data: html } = await axios.get(config.cambioschaco.url);
@@ -14,8 +33,8 @@ async function obtenerDatosCambiosChaco() {
             const monedaConfig = config.cambioschaco.parseConfig.find(cfg => cfg.id === $(element).attr('id'));
             if (monedaConfig) {
                 const moneda = monedaConfig.moneda;
-                const compra = parseFloat($(element).find('.purchase').text().replace(',', '').trim());
-                const venta = parseFloat($(element).find('.sale').text().replace(',', '').trim());
+                const compra = parseNumber($(element).find('.purchase').text().trim());
+                const venta = parseNumber($(element).find('.sale').text().trim());
                 const spread = venta - compra;
 
                 pizarraItems.push({
